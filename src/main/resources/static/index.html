@@ -198,8 +198,6 @@
 								form.classList.remove( 'is-error' );
 								form.classList.add( 'is-success' );
 								
-								timer = setInterval(checkConvState, 500);
-	
 								var preview	 = form.querySelector( '.box__success .previewPDF' )
 								preview.setAttribute("onClick", "window.open('/viewPDF?key=" + key + "','_blank','');");
 								preview.setAttribute("class", "previewPDF");
