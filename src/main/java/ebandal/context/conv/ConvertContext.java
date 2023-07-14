@@ -149,7 +149,9 @@ public class ConvertContext {
 			try (BufferedReader br = new BufferedReader(new InputStreamReader(ins, charset))) {
 				String line;
 				while((line = br.readLine())!=null) {
-					// log.debug(line);
+					if (log.isDebugEnabled()) {
+						log.debug(line);
+					}
 					if (callback!=null) {
 						callback.onReceive(line);
 					}
