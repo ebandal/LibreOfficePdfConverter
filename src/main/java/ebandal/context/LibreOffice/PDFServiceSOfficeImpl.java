@@ -52,7 +52,7 @@ public class PDFServiceSOfficeImpl implements PDFService {
                 break;
         case "hwp":
         case "hwpx":
-                inFilter = "\"Hwp2002_Reader\"";
+                inFilter = "\"Hwp2002_File\"";
                 outFilter = "pdf:writer_pdf_Export";
                 break;
         default:
