@@ -8,7 +8,7 @@ import ebandal.controller.ControllerStopException;
 
 public interface PDFService {
 
-    public String convert(ConvertContext context, String sourceFile, String targetFile, ProgressCallback callback)
+    public void convert(ConvertContext context, String sourceFile, String targetFile, ProgressCallback callback)
             throws IOException, InterruptedException, ControllerStopException, ServiceNotFoundException ;
     
     public String getMode();

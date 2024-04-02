@@ -67,8 +67,8 @@ public class PDFServiceSOfficeImpl implements PDFService {
         callback.add("--convert-to");
         callback.add(outFilter);
         
-        String convertedPath = callback.convertedPath(documentPath);
-        callback.add("\""+convertedPath+"\"");
+        String sourceFilePath = callback.convertedPath(documentPath);
+        callback.add("\""+sourceFilePath+"\"");
     }
 
     @Override
@@ -77,7 +77,7 @@ public class PDFServiceSOfficeImpl implements PDFService {
     }
     
     @Override
-    public String convert(ConvertContext context, String documentPath, String outputPath, ProgressCallback prgrssCB)
+    public void convert(ConvertContext context, String documentPath, String outputPath, ProgressCallback prgrssCB)
                                             throws IOException, InterruptedException, ControllerStopException {
         
         List<String> commandWithArgs = new ArrayList<String>();
@@ -165,18 +165,11 @@ public class PDFServiceSOfficeImpl implements PDFService {
 
         Process process = builder.start();
         
-        List<String> callbackList = new ArrayList<String>();
         MatchCallback mc = new MatchCallback() {
             @Override
             public void onReceive(String line) {
-                if (line.startsWith("convert")) {
-                    String res = line.replaceAll("convert [^\\s]+ -> ([^\\s]+) .*", "$1");
-                    callbackList.add(res);
-                } 
-                if (line.matches("HWP converting \\d+ \\/ \\d+")) {
-                    log.debug(line);
-                }
-                else if (line.matches("(E|e)rror.*")) {
+                log.debug(line);
+                if (line.matches("(E|e)rror.*")) {
                     prgrssCB.lastErrMsg = line;
                 }
             }
@@ -212,17 +205,6 @@ public class PDFServiceSOfficeImpl implements PDFService {
         }
         t1.join();
         
-        String pdfPath = null;
-        if (callbackList.size()==1) {
-            pdfPath = callbackList.get(0);
-            if (activeProfiles.contains("wsl")) {
-                pdfPath = WslEnvSetup.pathWsl2Windows(pdfPath);
-            } else if (activeProfiles.contains("windows")) {
-                pdfPath = WslEnvSetup.pathWin2Windows(pdfPath);
-            }
-        }
-
-        return pdfPath;
     }
 
     private String getCodePage() {

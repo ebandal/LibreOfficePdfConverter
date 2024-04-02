@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DownloadController {
     private static final Logger log = LoggerFactory.getLogger(DownloadController.class);
 	
-	@Value("${conv.input.directory}")
+	@Value("${conv.output.directory}")
 	private String pdfDownloadBase;
 
     @RequestMapping(value="/download", method=RequestMethod.GET )
@@ -47,10 +47,10 @@ public class DownloadController {
 				filename += ".pdf";
 			}
 	
-			File inputFolder = new File(pdfDownloadBase);
+			File outputFolder = new File(pdfDownloadBase);
 			File targetPdfFile = null;
 			
-			targetPdfFile = new File(inputFolder, filename);
+			targetPdfFile = new File(outputFolder, filename);
 			if (targetPdfFile.exists() == false) {
 				log.error("File out of /download/key+.pdf ("+targetPdfFile.getAbsolutePath()+") doesn't exist!!!");
 				throw new ControllerStopException(ErrCode.FILE_NOT_FOUND);

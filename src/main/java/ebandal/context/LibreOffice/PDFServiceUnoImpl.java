@@ -38,7 +38,7 @@ public class PDFServiceUnoImpl implements PDFService {
     }
 
     @Override
-    public String convert(ConvertContext context, String inputFile, String targetPath, ProgressCallback callback) 
+    public void convert(ConvertContext context, String inputFile, String targetPath, ProgressCallback callback) 
                                                             throws IOException, InterruptedException, ControllerStopException {
         final String resolveURL = "uno:socket,host=127.0.0.1,port=" + context.port + ";urp;StarOffice.ComponentContext";
         String fileName = Paths.get(inputFile).getFileName().toString();
@@ -118,7 +118,6 @@ public class PDFServiceUnoImpl implements PDFService {
         } catch (java.lang.Exception e) {
             e.printStackTrace();
         }
-        return outputFile;
     }
 
 }
